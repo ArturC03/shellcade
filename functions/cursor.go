@@ -32,7 +32,7 @@ func MoveR(n int) error {
 
 func Position(x, y int) {
     // ANSI escape code to set cursor position
-    fmt.Printf("\033[%d;%dH", x, y)
+    fmt.Printf("\033[%d;%df", y, x)
 }
 
 func Show() {
