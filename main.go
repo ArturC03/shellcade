@@ -16,10 +16,6 @@ func main() {
 ░  ░  ░   ░  ░░ ░   ░     ░ ░     ░ ░   ░          ░   ▒    ░ ░  ░    ░   
       ░   ░  ░  ░   ░  ░    ░  ░    ░  ░░ ░            ░  ░   ░       ░  ░
 `
-    cursor.Show()
-    fmt.Scanln()
-    cursor.MoveR(5)
-    fmt.Scanln()
     cursor.Hide()
     fmt.Println(asciiArt)
     fmt.Scanln()

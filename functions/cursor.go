@@ -1,7 +1,7 @@
 package cursor
 
 import "fmt" 
-import "errors"
+// import "errors"
 
 
 func Hide() {
