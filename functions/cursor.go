@@ -1,4 +1,4 @@
-package functions// package declaration
+package cursor// package declaration
 
 import "fmt" // import necessary packages
 

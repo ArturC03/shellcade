@@ -1,7 +1,7 @@
 package main
 
 import "fmt"
-import "github.com/ArturC03/shellcade/functions"
+import "github.com/ArturC03/shellcade/functions/cursor"
 
 func main() {
     fmt.Print("\033[?25h")
@@ -16,7 +16,7 @@ func main() {
 ░  ░  ░   ░  ░░ ░   ░     ░ ░     ░ ░   ░          ░   ▒    ░ ░  ░    ░   
       ░   ░  ░  ░   ░  ░    ░  ░    ░  ░░ ░            ░  ░   ░       ░  ░
 `
-    fmt.Print("\033[H\033[2J")
+    cursor.Show()
     fmt.Println(asciiArt)
     fmt.Scanln()
 }
