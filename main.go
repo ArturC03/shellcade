@@ -1,8 +1,10 @@
 package main
 
 import "fmt"
+import "github.com/ArturC03/shellcade/functions"
 
 func main() {
+    fmt.Print("\033[?25h")
     asciiArt := `
   ██████  ██░ ██ ▓█████  ██▓     ██▓     ▄████▄   ▄▄▄      ▓█████▄ ▓█████ 
 ▒██    ▒ ▓██░ ██▒▓█   ▀ ▓██▒    ▓██▒    ▒██▀ ▀█  ▒████▄    ▒██▀ ██▌▓█   ▀ 
@@ -14,7 +16,8 @@ func main() {
 ░  ░  ░   ░  ░░ ░   ░     ░ ░     ░ ░   ░          ░   ▒    ░ ░  ░    ░   
       ░   ░  ░  ░   ░  ░    ░  ░    ░  ░░ ░            ░  ░   ░       ░  ░
 `
-
+    fmt.Print("\033[H\033[2J")
     fmt.Println(asciiArt)
+    fmt.Scanln()
 }
 
