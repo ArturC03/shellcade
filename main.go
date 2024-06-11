@@ -1,10 +1,15 @@
 package main
 
 import "fmt"
-import "github.com/ArturC03/shellcade/functions"
+import (
+    "github.com/ArturC03/shellcade/functions"
+)
 
 func main() {
-    fmt.Print("\033[?25h")
+    
+  width, height, _:= cursor.GetScreenSize()
+  cursor.Clear()
+
     asciiArt := `
   ██████  ██░ ██ ▓█████  ██▓     ██▓     ▄████▄   ▄▄▄      ▓█████▄ ▓█████ 
 ▒██    ▒ ▓██░ ██▒▓█   ▀ ▓██▒    ▓██▒    ▒██▀ ▀█  ▒████▄    ▒██▀ ██▌▓█   ▀ 
@@ -16,8 +21,18 @@ func main() {
 ░  ░  ░   ░  ░░ ░   ░     ░ ░     ░ ░   ░          ░   ▒    ░ ░  ░    ░   
       ░   ░  ░  ░   ░  ░    ░  ░    ░  ░░ ░            ░  ░   ░       ░  ░
 `
+// Calculate starting x-coordinate for centering horizontally
+    startX := width/2 - 37
+
+    // Hide cursor
     cursor.Hide()
+
+    // Set cursor position and print ASCII art
+    cursor.Position(startX, height/2-4)
     fmt.Println(asciiArt)
     fmt.Scanln()
+    cursor.Clear()
+
+    
 }
 
