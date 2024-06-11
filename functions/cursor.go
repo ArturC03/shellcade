@@ -1,14 +1,12 @@
 package cursor
 
-import {
-  "fmt" 
-  "errors"
-}
+import "fmt" 
+import "errors"
+
+
 func Hide() {
   fmt.Print("\033[?25l")
 }
-
-
 
 func MoveU()  {
   
@@ -18,7 +16,7 @@ func MoveD()  {
   
 }
 
-func MoveL() error {
+func MoveL() {
   
 }
 
