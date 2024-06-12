@@ -1,42 +1,40 @@
 package cursor 
 
-import {
-  "fmt"
-  "os"
-  "syscall"
-  "unsafe"
-}
+import "fmt"
+import "os"
+import "syscall"
+import "unsafe"
 
 func Clear() {
     fmt.Print("\033[2J")
 }
 
-func MakeOutline(x,y,width,heigth int) {
+func MakeOutline(x,y,width,height int) {
     if width < 2 || height < 2 {
         fmt.Println("Width and height should be at least 2 to draw a box.")
         return
     }
 
     // Draw top border
-    cursor.Position(x,y)
+    Position(x,y)
     fmt.Print("┌")
-    for i := 0; i < width-2; i++ {
+    for i := 0; i < width - 2 - 2; i++ {
         fmt.Print("─")
     }
     fmt.Println("┐")
 
     // Draw sides
-    for i := 0; i < height-2; i++ {
-        cursor.Position(x,y + 1)
+    for i := 1; i < height; i++ {
+        Position(x,y + i)
         fmt.Print("│")
-        cursor.Position(x + width,y + 1)
+        Position(x + width - 2 - 1,y + i)
         fmt.Println("│")
     }
 
     // Draw bottom border
-    cursor.Position(x, y + height)
+    Position(x, y + height)
     fmt.Print("└")
-    for i := 0; i < width-2; i++ {
+    for i := 0; i < width - 2 - 2; i++ {
         fmt.Print("─")
     }
     fmt.Println("┘")

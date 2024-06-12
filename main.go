@@ -64,7 +64,8 @@ func Menu(options []string) int {
 			}
 		case '\n': // Enter key
 			fmt.Printf("You selected option %d\n", selection)
-			return selection
+			keyboard.Close()
+      return selection
 		}
 	}
 }
@@ -98,17 +99,33 @@ func StartScreen(width, height int)  {
   // Calculate the starting y-coordinate for centering vertically
 	startY := height/2 - 4
 	
+  // Calculate the starting x-coordinate for centering vertically
+	startX := width/2 - 74/2
   for i, line := range lines {
 		// Calculate the x position to center the line
-		startX := width/2 - 74/2
 		cursor.Position(startX, startY+i)
 		fmt.Print(line)
 	}
-  cursor.MakeOutline(startX - 1,startY - 1,74 + 2, 8 + 2)
+  cursor.MakeOutline(startX - 1,startY - 1,74 + 3, 8 + 2)
   fmt.Print(DEFAULT_COLOR) 
 
-    // Set cursor position and print ASCII art
-    fmt.Scanln()
+  if err := keyboard.Open(); err != nil {
+		log.Fatal(err)
+	}
+	defer keyboard.Close()
+
+  for { // Read key
+		_, key, err := keyboard.GetKey()
+		if err != nil {
+			log.Fatal(err)
+		}
+    
+    if key == keyboard.KeyEnter {
+      break
+    }
+  }
+
+    keyboard.Close()
     cursor.Clear()
 }
 
