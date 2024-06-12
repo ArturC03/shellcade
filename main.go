@@ -104,6 +104,7 @@ func StartScreen(width, height int)  {
 		cursor.Position(startX, startY+i)
 		fmt.Print(line)
 	}
+  cursor.MakeOutline(startX - 1,startY - 1,74 + 2, 8 + 2)
   fmt.Print(DEFAULT_COLOR) 
 
     // Set cursor position and print ASCII art
@@ -117,7 +118,6 @@ func main() {
 
   //Show StartScreen
   StartScreen(width, height)
-  
   // Menu()
   options := []string{"Option 1", "Option 2", "Option 3"}
   Menu(options)
