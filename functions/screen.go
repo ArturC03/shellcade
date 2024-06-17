@@ -18,27 +18,26 @@ func MakeOutline(x,y,width,height int) {
     // Draw top border
     Position(x,y)
     fmt.Print("┌")
-    for i := 0; i < width - 2 - 2; i++ {
+    for i := 1; i < width - 1; i++ {
         fmt.Print("─")
     }
     fmt.Println("┐")
 
     // Draw sides
-    for i := 1; i < height; i++ {
+    for i := 1; i < height - 1; i++ {
         Position(x,y + i)
         fmt.Print("│")
-        Position(x + width - 2 - 1,y + i)
+        Position(x + width - 1,y + i)
         fmt.Println("│")
     }
 
     // Draw bottom border
-    Position(x, y + height)
+    Position(x, y + height - 1)
     fmt.Print("└")
-    for i := 0; i < width - 2 - 2; i++ {
+    for i := 1; i < width - 1; i++ {
         fmt.Print("─")
     }
     fmt.Println("┘")
-
 }
 
 func GetScreenSize() (width, height int, err error) {

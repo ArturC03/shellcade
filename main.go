@@ -14,28 +14,29 @@ const (
   DEFAULT_COLOR= "\033[0m"
 )
 
-func Menu(options []string) int {
+func Menu(options []string, biggestString string, width int, height int) int {
 	cursor.Clear()
-	cursor.Position(0, 0)
+	cursor.Position((width - len(biggestString))/2,(height - len(options))/2)
 
 	if err := keyboard.Open(); err != nil {
 		log.Fatal(err)
 	}
 	defer keyboard.Close()
 
-	fmt.Println("Use W/S to navigate, Enter to select, and Q to quit")
-
 	selection := 0
 
 	for {
 		// Redraw menu with the current selection
 		cursor.Clear()
-		cursor.Position(0, 0)
+  	cursor.MakeOutline((width - len(biggestString))/2 - 1,(height - len(options))/2 - 1, len(biggestString)+2, len(options) + 2)
+		cursor.Position((width - len(biggestString))/2,(height - len(options))/2)
 		for i := 0; i < len(options); i++ {
 			if i == selection {
+				cursor.Position((width - len(biggestString))/2,(height - len(options))/2 + i)
 				fmt.Printf(COLOR_CODE + options[i] + DEFAULT_COLOR + "\n")
 			} else {
-				fmt.Println(options[i])
+				cursor.Position((width - len(biggestString))/2,(height - len(options))/2 + i)
+        fmt.Println(options[i])
 			}
 		}
 
@@ -130,14 +131,22 @@ func StartScreen(width, height int)  {
 }
 
 func main() {
-    
-  width, height, _:= cursor.GetScreenSize()
 
-  //Show StartScreen
+  fmt.Scanln()
+  
+  width, height, _ := cursor.GetScreenSize()
+
   StartScreen(width, height)
-  // Menu()
-  options := []string{"Option 1", "Option 2", "Option 3"}
-  Menu(options)
-  cursor.Show()
-}
 
+  options := []string{"1. Snake Game", "2. Tetris", "3. Shell Fight"}
+  biggestString := options[0]
+  for i := 1; i < len(options);i++ {
+    if biggestString < options[i] {
+      biggestString = options[i]
+    }
+  }
+
+  Menu(options, biggestString, width, height)
+  cursor.Show()
+  
+}

@@ -1,8 +1,8 @@
 package main
 
 import (
-    "strings"
-    "fmt"
+//    "strings"
+//"fmt"
     "github.com/ArturC03/shellcade/functions"
     "github.com/eiannone/keyboard"
     "log"
@@ -18,8 +18,9 @@ func RunSnake() {
 	}
 	defer keyboard.Close()
 
+
   for { // Read key
-		char, key, err := keyboard.GetKey()
+		char, _, err := keyboard.GetKey()
 		if err != nil {
 			log.Fatal(err)
 		}
