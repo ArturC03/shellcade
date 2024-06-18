@@ -20,12 +20,11 @@ const (
 )
 
 func randomSnakeCaracter() string {
-		snakeCharacters := []string{
+	snakeCharacters := []string{
 		"█", "▒", "░", "▓", "▄", "▀", "╬", "¤", "■", "▌", "▐", "▬", "≡", "☻", "◙", "⊕", "⌐", "╕", "╣", "╗", "░", "⌠", "╩", "≈", "┘", "┐", "∟", "└", "┴", "╨", "Ω", "♣", "♠", "♦", "♫", "☼", "►", "↕", "¶", "☺", "♪", "∞", "♀", "▀", "♂", "┼", "╪", "▒", "▓", "░", "├", "≥", "≤", "µ", "√", "∫", "℅", "§", "↑", "↓", "←", "→", "∟", "↔", "▲", "▼", "!", "¬", "#", "£", "¤", "%", "&", "*", "(", ")", "-", "+", "=", "@", "©", "®", "€", "™", "¥", "≠", "÷", "×", "∆", "Δ", "◊", "æ", "œ", "ø", "Ø", "∏", "π", "∑", "∂", "∫", "√", "≈", "∞", "°", "÷", "µ", "Ω", "¤", "Ω", "♠", "♣", "♦", "♫", "♪", "♥", "♂", "♀", "♪", "♫", "☼", "►", "↕", "¶", "§", "▬", "↨", "↑", "↓", "←", "→", "∟", "↔", "▲", "▼", "!", "¬", "#", "£", "¤", "%", "&", "*", "(", ")", "-", "+", "=", "@", "©", "®", "€", "™", "¥", "≠", "÷", "×", "∆", "Δ", "◊", "æ", "œ", "ø", "Ø", "∏", "π", "∑", "∂", "∫", "√", "≈", "∞", "°", "÷", "µ", "Ω", "¤", "Ω", "♠", "♣", "♦", "♫", "♪", "♥", "♂", "♀", "♪", "♫", "☼", "►", "↕", "¶", "§", "▬", "↨", "↑", "↓", "←", "→", "∟", "↔", "▲", "▼", "!", "¬", "#", "£", "¤", "%", "&", "*", "(", ")", "-", "+", "=", "@", "©", "®", "€", "™", "¥", "≠", "÷", "×", "∆", "Δ", "◊", "æ", "œ", "ø", "Ø", "∏", "π", "∑", "∂", "∫", "√", "≈", "∞", "°", "÷", "µ", "Ω",
 	}
 	rand.Seed(time.Now().UnixNano())
 	return snakeCharacters[rand.Intn(len(snakeCharacters))]
-
 }
 
 func RunSnake() {
@@ -46,6 +45,7 @@ func RunSnake() {
 
 	direction := "down"
 	quit := make(chan bool)
+	directionCh := make(chan string, 1) // Buffered channel for direction input
 
 	// Set up keyboard input handling
 	if err := keyboard.Open(); err != nil {
@@ -67,19 +67,19 @@ func RunSnake() {
 			switch char {
 			case 'w':
 				if direction != "down" {
-					direction = "up"
+					directionCh <- "up"
 				}
 			case 's':
 				if direction != "up" {
-					direction = "down"
+					directionCh <- "down"
 				}
 			case 'a':
 				if direction != "right" {
-					direction = "left"
+					directionCh <- "left"
 				}
 			case 'd':
 				if direction != "left" {
-					direction = "right"
+					directionCh <- "right"
 				}
 			}
 		}
@@ -87,7 +87,7 @@ func RunSnake() {
 
 	// Function to check if the point is within the screen boundaries
 	isWithinBounds := func(p Point) bool {
-	width, height, _ = cursor.GetScreenSize()
+		width, height, _ := cursor.GetScreenSize() // Corrected: Get screen size here
 		return p.x > 0 && p.x < width && p.y > 0 && p.y < height
 	}
 
@@ -109,6 +109,14 @@ func RunSnake() {
 			fmt.Println("Game Over!")
 			return
 		default:
+			// Check direction input from channel
+			select {
+			case dir := <-directionCh:
+				direction = dir
+			default:
+				// No new direction input, continue with current direction
+			}
+
 			// Update snake position based on direction
 			head := snake[0]
 			newHead := head
@@ -156,23 +164,19 @@ func RunSnake() {
 			i := 0
 			for _, p := range snake {
 				cursor.Position(p.x, p.y)
-				letter := string(snakeLetter[i]) 
+				letter := snakeLetter[i]
 				fmt.Print(SNAKE_COLOR + letter + DEFAULT_COLOR)
-				i++	
+				i++
 			}
 
 			// Print the fruit
 			cursor.Position(fruit.x, fruit.y)
 			fmt.Print(FRUIT_COLOR + fruitLetter + DEFAULT_COLOR)
-			
+
 			// Delay for a while to control the game speed
-			if direction == "up" || direction == "down" {
-				time.Sleep(70 * 2 * time.Millisecond)
-			} else {
-				time.Sleep(60* time.Millisecond)
-			}
+			time.Sleep(120 * time.Millisecond)
 		}
 	}
-	keyboard.Close()
 }
+
 
