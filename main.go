@@ -64,7 +64,6 @@ func Menu(options []string, biggestString string, width int, height int) int {
 				selection++
 			}
 		case '\n': // Enter key
-			fmt.Printf("You selected option %d\n", selection)
 			keyboard.Close()
       return selection
 		}
@@ -146,7 +145,11 @@ func main() {
     }
   }
 
-  Menu(options, biggestString, width, height)
-  cursor.Show()
-  
+	option := Menu(options, biggestString, width, height)
+	if (0 == option) {
+		RunSnake()
+	}
+
+	cursor.Show()
+
 }
