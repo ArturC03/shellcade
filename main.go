@@ -1,11 +1,12 @@
 package main
 
 import (
-    "strings"
-    "fmt"
-    "github.com/ArturC03/shellcade/functions"
-    "github.com/eiannone/keyboard"
-    "log"
+	"time"
+	"strings"
+	"fmt"
+	"github.com/ArturC03/shellcade/functions"
+	"github.com/eiannone/keyboard"
+	"log"
 )
 
 const (
@@ -47,7 +48,6 @@ func Menu(options []string, biggestString string, width int, height int) int {
 		}
     
     if key == keyboard.KeyEnter {
-			fmt.Printf("You selected option %d\n", selection)
 			return selection
     }
 
@@ -71,8 +71,6 @@ func Menu(options []string, biggestString string, width int, height int) int {
 }
 
 func StartScreen(width, height int)  {
-
-
   asciiArt := 
 `  ██████  ██░ ██ ▓█████  ██▓     ██▓     ▄████▄   ▄▄▄      ▓█████▄ ▓█████
 ▒██    ▒ ▓██░ ██▒▓█   ▀ ▓██▒    ▓██▒    ▒██▀ ▀█  ▒████▄    ▒██▀ ██▌▓█   ▀ 
@@ -105,6 +103,7 @@ func StartScreen(width, height int)  {
 		// Calculate the x position to center the line
 		cursor.Position(startX, startY+i)
 		fmt.Print(line)
+		time.Sleep(80 * time.Millisecond)
 	}
   cursor.MakeOutline(startX - 1,startY - 1,74 + 3, 8 + 2)
   fmt.Print(DEFAULT_COLOR) 
@@ -145,11 +144,10 @@ func main() {
     }
   }
 
-	option := Menu(options, biggestString, width, height)
-	if (0 == option) {
-		RunSnake()
-	}
-
+		option := Menu(options, biggestString, width, height)
+		if (0 == option) {
+			RunSnake()
+		}
 	cursor.Show()
 
 }
