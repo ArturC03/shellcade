@@ -1,7 +1,6 @@
 package cursor
 
 import "fmt" 
-// import "errors"
 
 // MoveR moves the cursor to the right by n spaces
 func MoveR(n int) {
