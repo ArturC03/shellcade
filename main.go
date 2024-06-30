@@ -147,7 +147,9 @@ func main() {
 		option := Menu(options, biggestString, width, height)
 		if (0 == option) {
 			RunSnake()
+		} else if (1 == option){
+			RunTetris()
 		}
-	cursor.Show()
+		cursor.Show()
 
 }
