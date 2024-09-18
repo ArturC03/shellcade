@@ -6,13 +6,15 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/ArturC03/shellcade/functions"
+	cursor "github.com/ArturC03/shellcade/functions"
 	"github.com/eiannone/keyboard"
 )
 
 type Point struct {
 	x, y int
 }
+
+var updateTime int = 120
 
 const (
 	SNAKE_COLOR = "\033[32m"
@@ -124,12 +126,17 @@ func RunSnake() {
 			switch direction {
 			case "up":
 				newHead.y--
+				updateTime = 120
 			case "down":
 				newHead.y++
+				updateTime = 120
 			case "left":
 				newHead.x--
+				updateTime = 60
+
 			case "right":
 				newHead.x++
+				updateTime = 60
 			}
 
 			// Check for collision with borders
@@ -172,9 +179,7 @@ func RunSnake() {
 			fmt.Print(FRUIT_COLOR + fruitLetter + DEFAULT_COLOR)
 
 			// Delay for a while to control the game speed
-			time.Sleep(120 * time.Millisecond)
+			time.Sleep(time.Duration(updateTime) * time.Millisecond)
 		}
 	}
 }
-
-
